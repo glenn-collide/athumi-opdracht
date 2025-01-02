@@ -165,7 +165,6 @@ class WineShopTest {
         assertEquals(0, wine.price)
     }
 
-    //   TODO:Implement Eco Brilliant Wine logic
     @Test
     fun `Eco Brilliant Wine degrades twice as fast after expiration`() {
         val wine = Wine(name = "Eco Brilliant Wine", price = 20, expiresInYears = 0)
@@ -177,7 +176,6 @@ class WineShopTest {
         assertEquals(16, wine.price)
     }
 
-    //   TODO:Implement Eco Brilliant Wine logic
     @Test
     fun `Eco Brilliant Wine degrades twice as fast`() {
         val wine = Wine(name = "Eco Brilliant Wine", price = 20, expiresInYears = 5)

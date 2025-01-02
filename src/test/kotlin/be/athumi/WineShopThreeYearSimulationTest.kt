@@ -37,7 +37,7 @@ class WineShopThreeYearSimulationTest {
             Wine(name = "Event Wine", price = 23, expiresInYears = 12),
             Wine(name = "Event Wine", price = 52, expiresInYears = 7),
             Wine(name = "Event Wine", price = 55, expiresInYears = 2),
-            Wine(name = "Eco Brilliant Wine", price = 3, expiresInYears = 0)
+            Wine(name = "Eco Brilliant Wine", price = 0, expiresInYears = 0)
         )
 
         // Assertions for each wine
