@@ -1,63 +1,27 @@
 package be.athumi
 
+import be.athumi.strategy.ConservatoStrategy
+import be.athumi.strategy.DefaultWineStrategy
+import be.athumi.strategy.EventWineStrategy
+
 class WineShop(var items: List<Wine>) {
+
+    private val wineStrategies: Map<String, (Wine) -> Unit> = mapOf(
+        "Conservato" to { wine: Wine -> ConservatoStrategy.adjust(wine) },
+        "Event" to { wine: Wine -> EventWineStrategy.adjust(wine) },
+        "Wine brewed by Alexander the Great" to { _ -> }
+    )
+
     fun next() {
-        // Wine Shop logic
-        for (i in items.indices) {
-            if (items[i].name != "Bourdeaux Conservato" && items[i].name != "Bourgogne Conservato" && !items[i].name.startsWith("Event")) {
-                if (items[i].price > 0) {
-                    if (items[i].name != "Wine brewed by Alexander the Great") {
-                        items[i].price = items[i].price - 1
-                    }
-                }
-            } else {
-                if (items[i].price < 100) {
-                    items[i].price = items[i].price + 1
+        for (wine in items) {
+            val calculateNextYear = wineStrategies.entries
+                .firstOrNull { wine.name.contains(it.key) }?.value
+                ?: { w: Wine -> DefaultWineStrategy.adjust(w) }
 
-                    if (items[i].name.startsWith("Event")) {
-                        if (items[i].expiresInYears < 8) {
-                            if (items[i].price < 100) {
-                                items[i].price = items[i].price + 1
-                            }
-                        }
+            calculateNextYear(wine)
 
-                        if (items[i].expiresInYears < 3) {
-                            if (items[i].price < 99) {
-                                items[i].price = items[i].price + 2
-                            } else if (items[i].price == 99) {
-                                items[i].price = items[i].price + 1
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (items[i].name != "Wine brewed by Alexander the Great") {
-                items[i].expiresInYears = items[i].expiresInYears - 1
-            } else if (items[i].price < 0) {
-                items[i].price = 0
-            }
-
-            if (items[i].expiresInYears < 0) {
-                if (!items[i].name.contains("Conservato")) {
-                    if (!items[i].name.contains("Event")) {
-                        if (items[i].price > 0) {
-                            if (items[i].name != "Wine brewed by Alexander the Great") {
-                                items[i].price = items[i].price - 1
-                            }
-                        }
-                    } else {
-                        items[i].price = items[i].price - items[i].price
-                    }
-                } else {
-                    if (items[i].price < 100) {
-                        items[i].price = items[i].price + 1
-                    }
-                }
-            }
-
-            if (items[i].price < 0) {
-                items[i].price = 0
+            if (wine.price < 0) {
+                wine.price = 0
             }
         }
     }
