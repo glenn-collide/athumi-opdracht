@@ -22,8 +22,10 @@ class WineShop(var items: List<Wine>) {
                         }
 
                         if (items[i].expiresInYears < 3) {
-                            if (items[i].price < 100) {
+                            if (items[i].price < 99) {
                                 items[i].price = items[i].price + 2
+                            } else if (items[i].price == 99) {
+                                items[i].price = items[i].price + 1
                             }
                         }
                     }
